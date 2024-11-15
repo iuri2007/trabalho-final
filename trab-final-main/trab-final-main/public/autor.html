@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Livro</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='autor.css'>
+</head>
+<body>
+
+    <form class="form_autor">
+        <div>Cadastro do Autor</div>
+            <div>
+                <label>Nome do autor </label>
+                <input name="nomeautor">
+            </div>
+            <div>
+                <label>Nacionalidade</label>
+                <input name="nacionalidade">
+            </div>
+            <div>
+                <label>biografia</label>
+                <input name="biografia">
+            </div>
+            <div>
+                <button id="btCadastrar">
+                    Cadastrar Livro
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const form = document.querySelector(".form_autor")
+        const btCadastar = document.querySelector("#btCadastrar")
+
+        form.addEventListener("submit", async event => {
+            event.preventDefault()
+            const method = 'POST'
+            const url = '/autor'
+            const headers = { 'Content-Type': 'application/json' }
+            const nomeautor= form.nomeautor.value
+            const nacionalidade= form.nacionalidade.value
+            const biografia= form.biografia.value
+            const body = JSON.stringify({ nomeautor, nacionalidade, biografia })
+
+            if (nomeautor.trim() == "")
+                return alert("Campo NOME DO AUTOR Vazio")
+            
+            if (nacionalidade.trim() == "")
+                return alert("Campo NACIONALIDADE Vazio")
+
+            if (biografia.trim() == "")
+                return alert("Campo BIOGRAFIA Vazio")
+
+            const response = await fetch(url, { method, headers, body })
+            if (!response.ok)
+                return alert.error('Error:', response.statusText)
+            const responseData = await response.json()
+            alert("Autor cadastrado")
+            location.href = "editora.html" 
+        })
+    </script>
+</body>
+</html>

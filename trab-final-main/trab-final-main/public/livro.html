@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Livro</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='livro.css'>
+</head>
+<body>
+    <form class="form_livro">
+        <div>Cadastro do Livro</div>
+            <div>
+                <label>Título </label>
+                <input name="titulo">
+            </div>
+            <div>
+                <label>Ano de publicação</label>
+                <input  type="date" name="publicacao">
+            </div>
+            <div>
+                <label>Gênero</label>
+                <input name="genero">
+            </div>
+            <div>
+                <label>ISBN</label>
+                <input name="isbn">
+            </div>
+            <div>
+                <button id="btCadastrar">
+                    Cadastrar Livro
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const form = document.querySelector(".form_livro")
+        const btCadastar = document.querySelector("#btCadastrar")
+
+        form.addEventListener("submit", async event => {
+            event.preventDefault()
+            const method = 'POST'
+            const url = '/livro'
+            const headers = { 'Content-Type': 'application/json' }
+            const titulo = form.titulo.value
+            const publicacao = form.publicacao.value
+            const genero= form.genero.value
+            const isbn = form.isbn.value
+            const body = JSON.stringify({ titulo, publicacao, genero, isbn })
+
+            if (titulo.trim() == "")
+                return alert("Campo TÍTULO Vazio")
+            
+            if (publicacao.trim() == "")
+                return alert("Campo PUBLICAÇÃO Vazio")
+
+            if (genero.trim() == "")
+                return alert("Campo GÊNERO Vazio")
+
+            if (isbn.trim() == "")
+                return alert("Campo ISBN Vazio")    
+            
+            const response = await fetch(url, { method, headers, body })
+            if (!response.ok)
+                return alert.error('Error:', response.statusText)
+            const responseData = await response.json()
+            alert("Livro cadastrado")
+            location.href = "autor.html" 
+        })
+    </script>
+</body>
+</html>

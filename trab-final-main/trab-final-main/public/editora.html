@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Page Title</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='editora.css'>
+</head>
+<body>
+    
+    <form class="form_editora">
+        <div>Cadastro de Editora</div>
+            <div>
+                <label>Nome da Editora</label>
+                <input name="nomeeditora">
+            </div>
+            <div>
+                <label>Endereço </label>
+                <input name="endereco">
+            </div>
+            <div>
+                <label>CNPJ</label>
+                <input name="cnpj">
+            </div>
+            <div>
+                <button id="btCadastrar">Cadastrar Editora</button>
+            </div>
+            <button id="btVoltar">
+                Voltar
+            </button>
+        </div>
+    </form>
+    <script>
+        const form = document.querySelector(".form_editora")
+        const btCadastar = document.querySelector("#btCadastrar")
+
+        form.addEventListener("submit", async event => {
+            event.preventDefault()
+            const method = 'POST'
+            const url = '/editora'
+            const headers = { 'Content-Type': 'application/json' }
+            const nomeeditora = form.nomeeditora.value
+            const endereco = form.endereco.value
+            const cnpj= form.cnpj.value
+            const body = JSON.stringify({ nomeeditora, endereco, cnpj })
+
+            if (nomeeditora.trim() == "")
+                return alert("Campo NOME DA EDITORA Vazio")
+            
+            if (endereco.trim() == "")
+                return alert("Campo ENDEREÇO Vazio")
+
+            if (cnpj.trim() == "")
+                return alert("Campo CNPJ Vazio")
+            
+            const response = await fetch(url, { method, headers, body })
+            if (!response.ok)
+                return console.error('Error:', response.statusText)
+            const responseData = await response.json()
+            alert("Editora cadastrada")
+            location.href = "tabela.html" 
+        })
+        
+        btVoltar.addEventListener("click", () => {
+            window.location.href = "/"
+        })
+    </script>
+</body>
+</html>

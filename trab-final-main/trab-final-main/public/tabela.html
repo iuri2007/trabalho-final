@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabelas: Livro, Autor e Editora</title>
+    <link rel="stylesheet" href="tabela.css">
+</head>
+<body>
+
+    <h1>Informações Cadastradas</h1>
+
+ 
+    <h2>Livros</h2>
+    <table id="tabela-livros">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Ano de Publicação</th>
+                <th>Gênero</th>
+                <th>ISBN</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <h2>Autores</h2>
+    <table id="tabela-autores">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Nacionalidade</th>
+                <th>Biografia</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <h2>Editoras</h2>
+    <table id="tabela-editoras">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>CNPJ</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script>
+        async function carregarDados() {
+            const livrosResponse = await fetch('/livro');
+            const livros = await livrosResponse.json();
+
+            const autoresResponse = await fetch('/autor');
+            const autores = await autoresResponse.json();
+
+            const editorasResponse = await fetch('/editora');
+            const editoras = await editorasResponse.json();
+
+            const tabelaLivros = document.getElementById('tabela-livros').getElementsByTagName('tbody')[0];
+            livros.forEach(livro => {
+                const row = tabelaLivros.insertRow();
+                row.insertCell(0).textContent = livro.id;
+                row.insertCell(1).textContent = livro.titulo;
+                row.insertCell(2).textContent = livro.publicacao;
+                row.insertCell(3).textContent = livro.genero;
+                row.insertCell(4).textContent = livro.isbn;
+            });
+
+            const tabelaAutores = document.getElementById('tabela-autores').getElementsByTagName('tbody')[0];
+            autores.forEach(autor => {
+                const row = tabelaAutores.insertRow();
+                row.insertCell(0).textContent = autor.id;
+                row.insertCell(1).textContent = autor.nomeautor;
+                row.insertCell(2).textContent = autor.nacionalidade;
+                row.insertCell(3).textContent = autor.biografia;
+            });
+
+            const tabelaEditoras = document.getElementById('tabela-editoras').getElementsByTagName('tbody')[0];
+            editoras.forEach(editora => {
+                const row = tabelaEditoras.insertRow();
+                row.insertCell(0).textContent = editora.id;
+                row.insertCell(1).textContent = editora.nomeeditora;
+                row.insertCell(2).textContent = editora.endereco;
+                row.insertCell(3).textContent = editora.cnpj;
+            });
+        }
+        window.onload = carregarDados;
+    </script>
+
+</body>
+</html>
